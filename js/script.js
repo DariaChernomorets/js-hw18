@@ -1,19 +1,19 @@
 'use strict';
 
-const padString = function (str, length, symbol, boolean = true){
-    if (str === undefined ) return 'some error in string data';
-    if (length === undefined || isNaN(length)===true) return 'some error in length data';
-    if (str.length < length && symbol === undefined) return 'some error in symbol data';
-    if (boolean !== Boolean(boolean)) return 'some error in boolean data';
+const padString = function (str, length, symbol, right = true){
+    if (typeof str !== 'string' ) throw new Error ('some error in string data');
+    if (typeof length !== 'number' || isNaN(length)) throw new Error  ('some error in length data');
+    if (str.length === length) return str;
+    if (str.length > length) return str.substring(0, length);
 
-    let string = str.substring(0,length);
+    if (typeof symbol !== 'string' ) throw new Error  ('some error in symbol data');
+    if (symbol.length > 1 )  throw new Error  ('you have entered too many symbols');
 
-    if (boolean === true && str.length < length) {
-        string = string + symbol.repeat (length - str.length );
-    } else if (boolean === false && str.length < length) {
-        string = symbol.repeat (length - str.length ) + string;
-    }
+    if (typeof right !== 'boolean') throw new Error  ('some error in the side data');
 
-   return string;
+    const symbols = symbol.repeat (length - str.length);
+
+    return right ? str + symbols : symbols + str;
+
 }
-console.log(padString('hello', 9,'*', true));
+console.log(padString('hello', 10,'*', true));
